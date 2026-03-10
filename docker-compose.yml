@@ -1,0 +1,58 @@
+﻿services:
+ 
+  # ── Base de dados SQL ──────────────────────────────────
+  postgresql:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: biblioteca
+      POSTGRES_USER: biblioteca
+      POSTGRES_PASSWORD: biblioteca123
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - biblioteca-net
+ 
+  # ── Base de dados NoSQL ────────────────────────────────
+  mongodb:
+    image: mongo:7
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - biblioteca-net
+ 
+  # ── API Spring Boot ────────────────────────────────────
+  # ── API Spring Boot ────────────────────────────────────
+  book-service:
+    build: ./book-service
+    ports:
+      - "8080:8080"
+    environment:
+      # O Spring Boot usa estas variáveis padrão para configurar o JPA e MongoDB
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/biblioteca
+      SPRING_DATASOURCE_USERNAME: biblioteca
+      SPRING_DATASOURCE_PASSWORD: biblioteca123
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/reviews
+    depends_on:
+      - postgresql
+      - mongodb
+    networks:
+      - biblioteca-net
+ 
+  # ── Interface Web Flask ─────────────────────────────────
+  web-ui:
+    build: ./web-ui
+    ports:
+      - "5000:5000"
+    environment:
+      API_BASE: http://book-service:8080
+    depends_on:
+      - book-service
+    networks:
+      - biblioteca-net
+ 
+volumes:
+  pg_data:
+  mongo_data:
+ 
+networks:
+  biblioteca-net:
