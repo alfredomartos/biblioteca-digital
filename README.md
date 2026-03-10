@@ -1,76 +1,95 @@
 # 📚 Biblioteca Digital
 
-Projeto de exemplo utilizado para praticar **Git, GitHub, Docker e trabalho com múltiplos serviços**.
-
-A aplicação representa um sistema simples de biblioteca digital composto por dois serviços principais:
-
-* **book-service** – API responsável pela gestão de livros
-* **web-ui** – interface web para consulta dos livros
-
-Os serviços são executados em conjunto através de **Docker Compose**.
+Projeto de **microserviços** desenvolvido com **Spring Boot + Flask + PostgreSQL + MongoDB**, orquestrado com **Docker Compose**.
 
 ---
 
-## 🏗 Estrutura do Projeto
+# 👤 Informações do Aluno
 
-```
-biblioteca-digital
-│
-├── book-service/
-│   └── serviço backend da API
-│
-├── web-ui/
-│   └── interface web da aplicação
-│
-├── docker-compose.yml
-└── README.md
-```
+| Campo       | Valor                            |
+| ----------- | -------------------------------- |
+| **Nome**    | Alfredo Martos                   |
+| **Turma**   | Microservices Academy 2026       |
+| **Lab**     | Exercício 1 - Biblioteca Digital |
+| **Entrega** | 10/03/2026                       |
+| **Email**   | alfredo.martos@timwe.com         |
 
 ---
 
-## 🚀 Executar o Projeto
+# 🏗 Estrutura e Serviços
 
-### 1. Clonar o repositório
+Sistema composto por **4 serviços**, orquestrados via **Docker Compose**.
+
+| Serviço          | Tecnologia    | Porta | Papel                               |
+| ---------------- | ------------- | ----- | ----------------------------------- |
+| **web-ui**       | Python Flask  | 5000  | Interface Web                       |
+| **book-service** | Spring Boot 3 | 8080  | API REST (Lógica de Negócio)        |
+| **postgresql**   | PostgreSQL 15 | 5432  | Base de Dados do Catálogo (SQL)     |
+| **mongodb**      | MongoDB 7     | 27017 | Base de Dados de Avaliações (NoSQL) |
+
+---
+
+# 🚀 Como Executar
+
+### 1️⃣ Clonar o repositório
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone git@github.com:alfredomartos/biblioteca-digital.git
 cd biblioteca-digital
 ```
 
-### 2. Iniciar os serviços com Docker
+### 2️⃣ Subir a stack de serviços
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 ---
 
-## 🌐 Serviços
+# 🌐 Verificação
 
 Depois de iniciar os containers:
 
-* **Web UI:** http://localhost:3000
-* **API:** http://localhost:8000
+| Serviço           | URL                             |
+| ----------------- | ------------------------------- |
+| **API REST**      | http://localhost:8080/api/books |
 
 ---
 
-## 🔧 Tecnologias
+# 🛠 Troubleshooting
 
+### ❗ Erro de conexão com PostgreSQL
+
+Se o **book-service** falhar ao iniciar, pode ser porque o banco ainda não está pronto.
+
+Execute:
+
+```bash
+docker compose restart book-service
+```
+
+---
+
+# 🎯 Tecnologias Utilizadas
+
+* Java 17
+* Spring Boot 3
+* Python
+* Flask
 * Docker
-* Docker Compose
-* Python (API)
-* JavaScript / Web UI
-* Git & GitHub
+* PostgreSQL
+* MongoDB
 
 ---
 
-## 🎯 Objetivo do Laboratório
+# 📦 Arquitetura
 
-Este projeto é utilizado para praticar:
+Arquitetura baseada em **microserviços**, com separação clara de responsabilidades:
 
-* criação de repositórios Git
-* gestão de branches
-* Pull Requests
-* resolução automática de Issues
-* integração de múltiplos serviços
-* utilização de Docker em ambiente de desenvolvimento
+* **Spring Boot** → API e regras de negócio
+* **Flask** → Interface Web
+* **PostgreSQL** → Dados estruturados do catálogo
+* **MongoDB** → Avaliações e dados flexíveis
+* **Docker Compose** → Orquestração do ambiente
+
+---
